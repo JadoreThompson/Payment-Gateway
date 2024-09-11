@@ -15,16 +15,15 @@ class SignUpUser(LoginUser):
 
 
 # Payment Models
-class PaymentInfo(BaseModel):
-    full_name: str
-    card_number: int
-    sort_code: int
-    account_number: int
-    cvv: int
-    expiry_date: int
+class PaymentIntent(BaseModel):
+    amount: int = Field(ge=50, le=99999999)
+    currency: str
 
 
-# Exceptions
-class HTTPResponse(BaseModel):
-    status: int
-    detail: Any
+class CardPaymentIntent(BaseModel):
+    email: str
+    card_number: int = Field(min_length=12, max_length=12)
+    expiry_date: str
+    security_code: int = Field(min_length=3, max_length=3)
+    country: str
+    postal_code: str
