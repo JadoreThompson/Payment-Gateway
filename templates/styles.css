@@ -1,0 +1,51 @@
+:root {
+    --primary-color: #353eca;
+    --secondary-color: black;
+    --background-color: white;
+    --text-color: black;
+}
+html {
+    scroll-behaviour: smooth;
+}
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+
+
+/*Universals*/
+.btn-primary {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.btn-primary::active {
+    background-color: var(--primary-color) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+.btn-primary:focus {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    box-shadow: none !important;
+}
+.section{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+}
+.card-title {
+    text-align: center;
+}
+.auth-card {
+    padding: 1rem;
+    margin: auto;
+    max-width: 20rem;
+}
