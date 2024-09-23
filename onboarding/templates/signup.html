@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<section class="section auth-section">
+    <div class="container">
+        <div class="card auth-card">
+            <div class="card-title">Sign Up</div>
+            <div class="card-body">
+                <form id="signupForm">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-label" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-label" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-label" id="email" name="email" required>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-label" id="phone" name="phone" required>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="business_type">Business Type</label>
+                        <select name="business_type" id="business_type" required>
+                            <option value="" disabled selected>Select your business type</option>
+                            <option value="individual">Individual</option>
+                            <option value="company">Company</option>
+                            <option value="non_profit">Non-Profit</option>
+                        </select>
+                    </div>
+                    <div class="col mb-3 tos-container">
+                        <input type="checkbox" id="tos_acceptance" name="tos_acceptance" value="true" required>
+                        <span>TOS Acceptance (required)</span>
+                    </div>
+                    <div class="col mb-3">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+                </form>
+                <div class="error-container col mb-3">
+                    <span id="error-message"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'signup.js' %}"></script>
+{% endblock %}
