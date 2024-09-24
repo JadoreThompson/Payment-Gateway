@@ -3,35 +3,36 @@ document.addEventListener('DOMContentLoaded', function(){
     const errorContainer = document.querySelector('.error-container');
     const signupForm = document.getElementById('signupForm');
 
-    // Login Form listener
+    // Signup Form listener
     signupForm.addEventListener('submit', async function(e){
         e.preventDefault();
         let message;
-        console.log('submit');
         const formData = new FormData(signupForm);
         let formObj = {};
         for (let [k, v] of formData.entries()){
-            formObj[k] = v;
+            if (k != 'csrfmiddlewaretoken') {
+                formObj[k] = v;
+            }
         }
 
-        console.log("Form OBJ: ", formObj);
+        formObj['tos_acceptance'] = formObj['tos_acceptance'] === 'true';
 
         try {
+            console.log(baseURL + "auth/signup");
             const rsp = await fetch(baseURL + "auth/signup", {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: formObj
+                body: JSON.stringify(formObj)
             });
-
             const data = await rsp.json();
-            if (rsp.status == 200){
-                window.location.href = '/auth/onboarding';
-            } else {
-                throw new Error(data['message']);
+            if (rsp.status != 200){
+                throw new Error(data["message"]);
             }
 
+            window.location.href = '/onboarding';
+
         } catch(e) {
-            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-message').textContent = e.message;
             errorContainer.style.display = 'block';
         }
     });

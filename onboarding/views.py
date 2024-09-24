@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from onboarding.forms import SignUpForm
+
 
 # Create your views here.
 def login(request):
@@ -7,7 +9,8 @@ def login(request):
 
 
 def signup(request):
-    return render(request, 'signup.html')
+    form = SignUpForm()
+    return render(request, 'signup.html', {"form": form})
 
 
 def onboarding(request):
