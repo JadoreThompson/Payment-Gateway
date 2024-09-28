@@ -1,221 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 48px 0 0;
-            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-            background-color: #343a40;
-        }
-        .sidebar-sticky {
-            position: relative;
-            top: 0;
-            height: calc(100vh - 48px);
-            padding-top: .5rem;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-        .navbar-brand {
-            padding-top: .75rem;
-            padding-bottom: .75rem;
-            font-size: 1rem;
-        }
-        .navbar .navbar-toggler {
-            top: .25rem;
-            right: 1rem;
-        }
-        .nav-link {
-            color: rgba(255,255,255,.5);
-            font-weight: 500;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-        }
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            margin-bottom: 1rem;
-        }
-        .card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .table {
-            background-color: #fff;
-            border-radius: 10px;
-        }
-        @media (min-width: 768px) {
-            .sidebar {
-                position: fixed;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                z-index: 100;
-                padding: 48px 0 0;
-                box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-            }
-            main {
-                margin-left: 240px; /* Adjust based on your sidebar width */
-            }
-        }
-        @media (max-width: 767.98px) {
-            .sidebar {
-                position: static;
-                height: auto;
-                padding-bottom: 1rem;
-            }
-            .sidebar-sticky {
-                height: auto;
-            }
-            main {
-                margin-left: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Payment Gateway</a>
-        <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="navbar-nav px-3 d-none d-md-block">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
-            </li>
-        </ul>
-    </nav>
+{% extends 'base.html' %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-                <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <i class="fas fa-home me-2"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-exchange-alt me-2"></i> Transactions
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-box me-2"></i> Products
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-users me-2"></i> Customers
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+{% block title %}Dashboard{% endblock %}
 
-<!--            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">-->
-<!--                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">-->
-<!--                    <h1 class="h2">Dashboard</h1>-->
-<!--                </div>-->
+{% block navbar %}
+    {% include 'partials/_navbar.html' %}
+{% endblock %}
 
-<!--                <div class="row">-->
-<!--                    <div class="col-12 col-md-6 col-lg-3 mb-4">-->
-<!--                        <div class="card bg-primary text-white h-100">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title text-uppercase">Today's Earnings</h5>-->
-<!--                                <p class="card-text display-6">$1,234.56</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-md-6 col-lg-3 mb-4">-->
-<!--                        <div class="card bg-success text-white h-100">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title text-uppercase">Transactions Today</h5>-->
-<!--                                <p class="card-text display-6">42</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-md-6 col-lg-3 mb-4">-->
-<!--                        <div class="card bg-info text-white h-100">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title text-uppercase">New Customers</h5>-->
-<!--                                <p class="card-text display-6">7</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-md-6 col-lg-3 mb-4">-->
-<!--                        <div class="card bg-warning text-white h-100">-->
-<!--                            <div class="card-body">-->
-<!--                                <h5 class="card-title text-uppercase">Pending Transactions</h5>-->
-<!--                                <p class="card-text display-6">3</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+{% block sidebar %}
+    {% include 'partials/_sidebar.html' %}
+{% endblock %}
 
-<!--                <div class="card mt-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h2 class="card-title mb-4">Recent Transactions</h2>-->
-<!--                        <div class="table-responsive">-->
-<!--                            <table class="table table-hover">-->
-<!--                                <thead>-->
-<!--                                    <tr>-->
-<!--                                        <th>ID</th>-->
-<!--                                        <th>Customer</th>-->
-<!--                                        <th>Amount</th>-->
-<!--                                        <th>Date</th>-->
-<!--                                        <th>Status</th>-->
-<!--                                    </tr>-->
-<!--                                </thead>-->
-<!--                                <tbody>-->
-<!--                                    <tr>-->
-<!--                                        <td>1001</td>-->
-<!--                                        <td>John Doe</td>-->
-<!--                                        <td>$100.00</td>-->
-<!--                                        <td>2023-09-28</td>-->
-<!--                                        <td><span class="badge bg-success">Completed</span></td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>1002</td>-->
-<!--                                        <td>Jane Smith</td>-->
-<!--                                        <td>$75.50</td>-->
-<!--                                        <td>2023-09-28</td>-->
-<!--                                        <td><span class="badge bg-warning">Pending</span></td>-->
-<!--                                    </tr>-->
-<!--                                    <tr>-->
-<!--                                        <td>1003</td>-->
-<!--                                        <td>Bob Johnson</td>-->
-<!--                                        <td>$200.00</td>-->
-<!--                                        <td>2023-09-28</td>-->
-<!--                                        <td><span class="badge bg-success">Completed</span></td>-->
-<!--                                    </tr>-->
-<!--                                </tbody>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </main>-->
+
+{% block content %}
+<!-- Main content -->
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h5>Today's Sales</h5>
+                <h2>$12,345</h2>
+                <p class="text-success">+15% from yesterday</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h5>New Customers</h5>
+                <h2>27</h2>
+                <p class="text-primary">+5 from yesterday</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h5>Successful Transactions</h5>
+                <h2>189</h2>
+                <p class="text-success">98% success rate</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="metric-card">
+                <h5>Average Order Value</h5>
+                <h2>$65.32</h2>
+                <p class="text-warning">-2% from last week</p>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- Add more dashboard content here -->
+
+</main>
+{% endblock %}
