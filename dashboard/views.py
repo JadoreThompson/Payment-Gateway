@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from invoice.models import CustomInvoiceModel
+
+from django.shortcuts import render, redirect
 
 
 def products(request):
@@ -13,5 +15,9 @@ def customers(request):
     return render(request, 'pages/customers.html')
 
 
-def invoices(request):
-    return render(request, 'pages/invoices.html')
+def invoice(request):
+    if request.user.is_authenticated:
+        invoices = CustomInvoiceModel.objects.filter(user=request.user)
+    else:
+        return redirect('login')
+    return render(request, 'pages/invoice.html',{'invoices': invoices})

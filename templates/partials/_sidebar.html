@@ -1,31 +1,30 @@
 {% block sidebar %}
-<!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'dashboard' %}">
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'invoices' %}">
-                                Invoices
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'customers' %}">
-                                Customers
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'transactions' %}">
-                                Transactions
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+<nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+    <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'dashboard' %}">
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'invoice' %}">
+                    Invoices
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'customers' %}">
+                    Customers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'transactions' %}">
+                    Transactions
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 {% endblock %}
 
 {% block javascript %}{% endblock %}

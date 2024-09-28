@@ -1,0 +1,72 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Create Invoice{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Create Invoice</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'create_invoice' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="customer_name" class="form-label">Customer Name:</label>
+                            <input type="text" class="form-control" id="customer_name" name="customer_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customer_email" class="form-label">Customer Email:</label>
+                            <input type="email" class="form-control" id="customer_email" name="customer_email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="product_name">Product Name</label>
+                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="due_date" class="form-label">Due Date:</label>
+                            <input type="date" class="form-control" id="due_date" name="due_date" placeholder="mm/dd/yyyy"
+                                   min="09/28/2024" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unit_amount" class="form-label">Unit Price:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="unit_amount" name="unit_amount" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="currency">Currency</label>
+                            <input type="text" class="form-label" id="currency" name="currency">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tax_rate" class="form-label">Tax Rate (%):</label>
+                            <input type="number" class="form-control" id="tax_rate" name="tax_rate" step="0.01" min="0" max="100">
+                        </div>
+                        <input type="text" id="draft" name="draft" value="false" style="display: none;" disabled>
+                        <div class="text-end">
+                            <a href="" id="save-draft" class="btn btn-primary">Save as Draft</a>
+                            <button type="submit" class="btn btn-primary">Create Invoice</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/create_invoice.js' %}"></script>
+{% endblock %}
