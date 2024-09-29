@@ -15,7 +15,7 @@
 {% block content %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Invoices</h1>
+        <h1 class="h2" id="invoices-title">Invoices</h1>
         <div class="btn-container">
             <a href="{% url 'create_invoice' %}" class="btn btn-primary">Create</a>
         </div>
@@ -26,7 +26,7 @@
             <div class="card bg-light text-center">
                 <div class="card-body">
                     <h5 class="card-title">All Invoices</h5>
-                    <button class="btn btn-primary w-100" onclick="filterInvoices('all')">View All</button>
+                    <button id="all-invoices-button" class="btn btn-primary w-100">View All</button>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="card bg-light text-center">
                 <div class="card-body">
                     <h5 class="card-title">Draft Invoices</h5>
-                    <button class="btn btn-secondary w-100" onclick="filterInvoices('draft')">View Draft</button>
+                    <button id="draft-invoices-button" class="btn btn-secondary w-100">View Draft</button>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
             <div class="card bg-light text-center">
                 <div class="card-body">
                     <h5 class="card-title">Paid Invoices</h5>
-                    <button class="btn btn-success w-100" onclick="filterInvoices('paid')">View Paid</button>
+                    <button id="paid-invoices-button" class="btn btn-success w-100">View Paid</button>
                 </div>
             </div>
         </div>
@@ -50,11 +50,13 @@
             <div class="card bg-light text-center">
                 <div class="card-body">
                     <h5 class="card-title">Unpaid Invoices</h5>
-                    <button class="btn btn-warning w-100" onclick="filterInvoices('unpaid')">View Unpaid</button>
+                    <button id="unpaid-invoices-button" class="btn btn-warning w-100">View Unpaid</button>
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <div class="row">
         <table class="table table-striped">
@@ -63,57 +65,29 @@
                     <th>Invoice ID</th>
                     <th>Customer Name</th>
                     <th>Amount</th>
+                    <th>Created</th>
                     <th>Due Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Example row for a draft invoice -->
                 {% for invoice in invoices %}
                     <tr>
+                        <td>{{ invoice.invoice_id }}</td>
+                        <td>{{ invoice.customer_name }}</td>
                         <td>{{ invoice.amount }}</td>
+                        <td>{{ invoice.created_at }} </td>
+                        <td></td>
+                        <td>{{ invoice.status }}</td>
+                        <td></td>
                     </tr>
                 {% endfor %}
-<!--                <tr>-->
-<!--                    <td>#INV001</td>-->
-<!--                    <td>John Doe</td>-->
-<!--                    <td>$500.00</td>-->
-<!--                    <td>2024-10-05</td>-->
-<!--                    <td><span class="badge bg-secondary">Draft</span></td>-->
-<!--                    <td>-->
-<!--                        <button class="btn btn-primary btn-sm">Edit</button>-->
-<!--                        <button class="btn btn-danger btn-sm">Delete</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
-
-<!--                &lt;!&ndash; Example row for an unpaid invoice &ndash;&gt;-->
-<!--                <tr>-->
-<!--                    <td>#INV002</td>-->
-<!--                    <td>Jane Smith</td>-->
-<!--                    <td>$750.00</td>-->
-<!--                    <td>2024-10-12</td>-->
-<!--                    <td><span class="badge bg-warning">Unpaid</span></td>-->
-<!--                    <td>-->
-<!--                        <button class="btn btn-success btn-sm">Pay Now</button>-->
-<!--                        <button class="btn btn-danger btn-sm">Delete</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
-
-<!--                &lt;!&ndash; Example row for a paid invoice &ndash;&gt;-->
-<!--                <tr>-->
-<!--                    <td>#INV003</td>-->
-<!--                    <td>Bob Johnson</td>-->
-<!--                    <td>$1,200.00</td>-->
-<!--                    <td>2024-09-28</td>-->
-<!--                    <td><span class="badge bg-success">Paid</span></td>-->
-<!--                    <td>-->
-<!--                        <button class="btn btn-info btn-sm">View</button>-->
-<!--                        <button class="btn btn-danger btn-sm">Delete</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
             </tbody>
         </table>
     </div>
 </main>
+{% block javascript %}
+<script src="{% static 'js/invoice.js' %}"></script>
+{% endblock %}
 {% endblock %}

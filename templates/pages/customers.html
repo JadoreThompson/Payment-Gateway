@@ -13,5 +13,36 @@
 {% endblock %}
 
 {% block content %}
-customers
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2" id="invoices-title">Customers</h1>
+        <div class="btn-container">
+            <a href="{% url 'create_customer' %}" class="btn btn-primary">Create</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in customers %}
+                    <tr>
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% block javascript %}
+<script src="{% static 'js/customers.js' %}"></script>
+{% endblock %}
 {% endblock %}

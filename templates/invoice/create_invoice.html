@@ -56,10 +56,15 @@
                         </div>
                         <input type="text" id="draft" name="draft" value="false" style="display: none;">
                         <div class="text-end">
-                            <a href="" id="save-draft" class="btn btn-primary">Save as Draft</a>
+                            <button id="save-draft" class="btn btn-primary">Save as Draft</button>
                             <button type="submit" class="btn btn-primary">Create Invoice</button>
                         </div>
                     </form>
+                    <div class="errors">
+                        {% for message in messages %}
+                        <span>{{ message }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

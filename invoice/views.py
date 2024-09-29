@@ -22,9 +22,6 @@ class CreateInvoiceView(View):
         """
         try:
             data = request.POST.dict()
-            print("^^^^^^^^^^^")
-            print(data)
-            print("^^^^^^^^^^^")
             post_data = {
                 "new_product": {
                     "name": data['product_name']
@@ -40,27 +37,29 @@ class CreateInvoiceView(View):
                 'draft': data['draft']
             }
 
+            # Sending to Microservice
             rsp = requests.post(f"{NATIVE_API}/payments/invoice/create", json=post_data)
             rsp_data = rsp.json()
 
+            # Handling response
             if rsp.status_code == 500:
                 messages.error(request, rsp_data['message'])
                 return render(request, 'invoice/create_invoice.html')
 
             if rsp.status_code == 200:
                 invoice_data = {
-                    'invoice_id': rsp_data['invoice']['id'], 'amount': int(rsp_data['invoice']['amount']),
-                    'customer_name': data['customer_name'], 'customer_email': data['customer_email']
+                    'invoice_id': rsp_data['invoice']['invoice'], 'amount': int(rsp_data['invoice']['amount']),
+                    'customer_name': data['customer_name'], 'customer_email': data['customer_email'],
                 }
-                invoice = CustomInvoiceModel.objects.create(user=request.user, **invoice_data)
-
+                CustomInvoiceModel.objects.create(user=request.user, **invoice_data)
                 messages.success(request, 'Successfully created Invoice')
-                return redirect('dashboard')
-            print(json.dumps(rsp_data, indent=4))
-            return redirect('invoice')
+                return redirect('invoice')
+
+            if rsp.status_code == 422:
+                raise Exception
         except json.JSONDecodeError as e:
             messages.error(request, 'Internal server error')
-            print(str(e))
+            return render(request, 'invoice/create_invoice.html', {"errors": str(e)})
         except Exception as e:
             messages.error(request, 'Internal server error')
-            print(str(e))
+            return render(request, 'invoice/create_invoice.html', {"errors": str(e)})
