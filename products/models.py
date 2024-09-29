@@ -9,7 +9,7 @@ class CustomProductsModel(models.Model):
     product_id = models.CharField()
     price = models.IntegerField()
     name = models.CharField()
-    description = models.CharField()
+    description = models.CharField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

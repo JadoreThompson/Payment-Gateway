@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
@@ -66,3 +66,9 @@ class RegistrationView(View):
                 return redirect('dashboard')
 
         return render(request, 'accounts/register.html')
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')

@@ -2,6 +2,7 @@ import requests
 
 # Dir
 from tools import STRIPE_MICROSERVICE
+from .models import CustomProductsModel
 
 # Django
 from django.shortcuts import render, redirect
@@ -24,7 +25,14 @@ class ProductCreateView(View):
             rsp_data = rsp.json()
 
             if rsp.status_code == 200:
-                return redirect('https://www.google.com')
+                insert_data = {
+                    "product_id": rsp_data['product']['id'],
+                    "price": rsp_data["product"]["price"],
+                    "name": rsp_data["product"]["name"],
+                    "description": rsp_data['product'].get('description', None)
+                }
+                CustomProductsModel.objects.create(user=request.user, **insert_data)
+                return redirect('products')
 
             raise Exception(rsp_data['error'])
         except Exception as e:
