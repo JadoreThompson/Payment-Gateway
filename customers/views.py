@@ -4,11 +4,11 @@ import json
 from django.http import JsonResponse
 
 # Directory Modules
-from tools import NATIVE_API
+from tools import STRIPE_MICROSERVICE
 from .models import CustomCustomerModel
 
 # Django Modules
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 
@@ -23,12 +23,12 @@ class CreateCustomerView(View):
 
             del data['csrfmiddlewaretoken']
 
-            print(data)
-            rsp = requests.post(f"{NATIVE_API}/customer/create", json=data)
+            # Microservice Request
+            rsp = requests.post(f"{STRIPE_MICROSERVICE}/customer/create", json=data)
             rsp_data = rsp.json()
 
+            # Handling Response
             if rsp.status_code == 200:
-
                 insert_data = {
                     "customer_id": rsp_data['customer']['id'],
                     'name': data['name'],
@@ -37,8 +37,10 @@ class CreateCustomerView(View):
 
                 CustomCustomerModel.objects.create(**insert_data, user=request.user)
                 messages.success(request, "Successfully created customer")
-                return JsonResponse({"message": "success"}, status=200)
+                return redirect('customers')
             else:
-                return JsonResponse(status=500, data={"data": rsp_data})
+                print(f"Create Customer: {rsp_data['error']}")
+                messages.error(request, message="Something went wrong")
+                return render(request, "customers/create_customer.html")
         except Exception as e:
             return JsonResponse({"error": str(e), "type": f"{type(e)}"}, status=500)

@@ -13,4 +13,4 @@ class CustomProductsModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Invoice {self.invoice_id} sent from {self.user_id.email}"
+        return f"Product {self.product_id} sent from {self.user}"

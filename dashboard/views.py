@@ -1,6 +1,8 @@
 # Directory Modules
 from invoice.models import CustomInvoiceModel
 from customers.models import CustomCustomerModel
+from transactions.models import CustomTransactionsModel
+from products.models import CustomProductsModel
 
 # Django Modules
 from django.contrib.auth.decorators import login_required
@@ -9,18 +11,19 @@ from django.shortcuts import render, redirect
 
 @login_required
 def products(request):
-    return render(request, 'pages/products.html')
+    products = CustomProductsModel.objects.filter(user=request.user)
+    return render(request, 'pages/products.html', {"products": products})
 
 
 @login_required
 def transactions(request):
-    return render(request, 'pages/transactions.html')
+    transactions = CustomTransactionsModel.objects.filter(user=request.user)
+    return render(request, 'pages/transactions.html', {'transactions': transactions})
 
 
 @login_required
 def customers(request):
     customers = CustomCustomerModel.objects.filter(user=request.user)
-    print(f"*******\n{customers}\n*******")
     return render(request, 'pages/customers.html', {'customers': customers})
 
 

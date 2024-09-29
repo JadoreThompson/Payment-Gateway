@@ -2,7 +2,7 @@ import json
 import requests
 import aiohttp
 
-from tools import NATIVE_API
+from tools import STRIPE_MICROSERVICE
 from invoice.models import CustomInvoiceModel
 
 from django.contrib import messages
@@ -38,7 +38,7 @@ class CreateInvoiceView(View):
             }
 
             # Sending to Microservice
-            rsp = requests.post(f"{NATIVE_API}/payments/invoice/create", json=post_data)
+            rsp = requests.post(f"{STRIPE_MICROSERVICE}/payments/invoice/create", json=post_data)
             rsp_data = rsp.json()
 
             # Handling response

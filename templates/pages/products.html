@@ -13,5 +13,38 @@
 {% endblock %}
 
 {% block content %}
-products
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2" id="products-title">Products</h1>
+        <div class="btn-container">
+            <a href="{% url 'create_product' %}" class="btn btn-primary">Create Product</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Currency</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.unit_amount }}</td>
+                        <td>{{ p.currency }}</td>
+                        <td>{{ p.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% block javascript %}
+    <script src="{% static 'js/products.js' %}"></script>
+{% endblock %}
 {% endblock %}

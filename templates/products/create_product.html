@@ -1,0 +1,47 @@
+{% extends 'dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Create Product{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Create Invoice</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'create_product' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unit_amount" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="unit_amount" name="unit_amount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="currency">Currency</label>
+                            <input type="text" class="form-control" id="currency" name="currency" required>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                        </div>
+                    </form>
+                    <div class="errors">
+                        {% for message in messages %}
+                        <span>{{ message }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/create_customers.js' %}"></script>
+{% endblock %}
