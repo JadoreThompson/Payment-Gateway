@@ -47,11 +47,12 @@ class CreateInvoiceView(View):
                 return render(request, 'invoice/create_invoice.html')
 
             if rsp.status_code == 200:
-                invoice_data = {
+                insert_data = {
                     'invoice_id': rsp_data['invoice']['invoice'], 'amount': int(rsp_data['invoice']['amount']),
                     'customer_name': data['customer_name'], 'customer_email': data['customer_email'],
+                    'status': rsp_data['status']
                 }
-                CustomInvoiceModel.objects.create(user=request.user, **invoice_data)
+                CustomInvoiceModel.objects.create(user=request.user, **insert_data)
                 messages.success(request, 'Successfully created Invoice')
                 return redirect('invoice')
 
