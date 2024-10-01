@@ -33,6 +33,9 @@
 
                 <!--Need to upload personal document like a driver's license or something for proof-->
                 <div class="mb-3">
+                    <input type="file" name="individual_file">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Home Address</label>
                     <div class="mb-2">
                         <label for="country" class="form-label">Country</label>
@@ -66,7 +69,9 @@
                     <input type="text" id="personal_id" name="personal_id" class="form-control" value="123456789" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
+
                 <input type="text" name="route" value="individual" hidden>
+
             </form>
         </div>
     </div>
@@ -96,11 +101,29 @@
     <div class="card" id="bankAccountCard">
         <div class="card-title"><h1>Bank Account Info</h1></div>
         <div class="card-body">
-            <form action="{% 'onboard-user' %}" method="post">
+            <form action="{% url 'onboard_user' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="account_number">Account Number</label>
+                    <input type="text" id="account_number" name="account_number" value="00012345 " class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="country2">Country</label>
+                    <input type="text" id="country2" name="country" value="GB" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="account_holder_name">Account Holder Name</label>
+                    <input type="text" id="account_holder_name" name="account_holder_name" value="Michael Xia" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="currency">Currency</label>
+                    <input type="text" id="currency" name="currency" value="gbp" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="text" name="route" value="bank" hidden>
             </form>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascript %}

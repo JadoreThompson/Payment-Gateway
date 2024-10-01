@@ -22,7 +22,6 @@ class OnboardingView(View):
     def post(self, request):
         data = request.POST.dict()
         del data['csrfmiddlewaretoken']
-        print(data)
 
         if data['route'] == 'individual':
             date = request.POST.get('dob').split("-")
@@ -49,20 +48,37 @@ class OnboardingView(View):
                     "id_number": data['personal_id'],
                     'phone': data['phone_number'],
                 },
-                'stripe_account': request.user.stripe_account_id
+                'stripe_account': request.user.stripe_account_id,
             }
 
-            print(json.dumps(post_data, indent=4))
+            files = {
+                "individual_file": request.FILES['individual_file']
+            }
 
             # Microservice Request
-            rsp = requests.post(f"{STRIPE_MICROSERVICE}/auth/update-user", json=post_data)
+            rsp = requests.post(f"{STRIPE_MICROSERVICE}/auth/update-user", data={"update_individual_request": json.dumps(post_data)}, files=files)
             rsp_data = rsp.json()
 
+
         if data['route'] == 'company':
+            # Make sure to trim all values
             del data['route']
             data['stripe_account'] = request.user.stripe_account_id
+
             # Microservice Request
             rsp = requests.post(f"{STRIPE_MICROSERVICE}/auth/update-user", json=data)
+            rsp_data = rsp.json()
+
+        if data['route'] == 'bank':
+            #print({"update_bank_info_request": json.dumps(data)})
+            #print(json.dumps(data, indent=4))
+
+            del data['route']
+            data['stripe_account'] = request.user.stripe_account_id
+
+            rsp = requests.post(
+                f"{STRIPE_MICROSERVICE}/auth/update-user",
+                data={"update_bank_info": json.dumps(data)})
             rsp_data = rsp.json()
 
         # Handling response
