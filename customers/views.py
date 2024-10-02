@@ -11,8 +11,10 @@ from .models import CustomCustomerModel
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 class CreateCustomerView(View):
     def get(self, request) -> render:
         return render(request, 'customers/create_customers.html')

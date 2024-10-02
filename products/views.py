@@ -8,8 +8,9 @@ from .models import CustomProductsModel
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 class ProductCreateView(View):
     def get(self, request):
         return render(request, 'products/create_product.html')

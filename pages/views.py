@@ -6,12 +6,14 @@ from tools import STRIPE_MICROSERVICE
 
 from django.views import View
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
     return render(request, 'pages/index.html')
 
 
+@login_required
 class DashboardView(View):
     def get(self, request):
         post_data = {'stripe_account': request.user.stripe_account_id}

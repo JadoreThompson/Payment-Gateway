@@ -9,8 +9,10 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 class CreateInvoiceView(View):
     def get(self, request):
         return render(request, 'invoice/create_invoice.html')
