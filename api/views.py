@@ -20,7 +20,8 @@ def receive_invoice_updates(request):
             elif body['type'] == 'invoice.paid':
                 invoice.status = 'paid'
                 invoice.save()
-            else: return JsonResponse(status=408, data={"message": "Invoice wasn't deleted or paid"})
+            else:
+                return JsonResponse(status=408, data={"message": "Invoice wasn't deleted or paid"})
             return JsonResponse({"message": "Success"}, status=200)
         return JsonResponse(status=400, data={'message': 'No such invoice'})
 
@@ -30,6 +31,11 @@ def receive_transaction_updates(request):
         body = json.loads(request.body)
         transaction = CustomTransactionsModel.objects.filter(transaction_id=body['data']['transaction_id'])
 
-        if transaction: return JsonResponse(status=409, data={"message": "Transaction already exists"})
+        if transaction:
+            return JsonResponse(status=409, data={"message": "Transaction already exists"})
         else:
-            CustomTransactionsModel.objects.create()
+            # return 10
+            return JsonResponse(status=200, data={"message": "Transaction doesn't exist"})
+
+        # # else:
+        # #     CustomTransactionsModel.objects.create()
