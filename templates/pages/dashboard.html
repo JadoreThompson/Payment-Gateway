@@ -21,15 +21,15 @@
         <div class="col-md-3">
             <div class="metric-card">
                 <h5>Today's Sales</h5>
-                <h2>$12,345</h2>
-                <p class="text-success">+15% from yesterday</p>
+                <h2>£ {{ todays_sales }}</h2>
+                <p class="text-success">up %{{ sales_growth }} from yesterday</p>
             </div>
         </div>
         <div class="col-md-3">
             <div class="metric-card">
                 <h5>New Customers</h5>
-                <h2>27</h2>
-                <p class="text-primary">+5 from yesterday</p>
+                <h2>{{ todays_customers }}</h2>
+                <p class="text-primary">Up {{ customer_growth }} from yesterday</p>
             </div>
         </div>
         <div class="col-md-3">
@@ -42,8 +42,8 @@
         <div class="col-md-3">
             <div class="metric-card">
                 <h5>Average Order Value</h5>
-                <h2>$65.32</h2>
-                <p class="text-warning">-2% from last week</p>
+                <h2>£ {{ todays_avg_order_value }}</h2>
+                <p class="text-warning">Up {{ avg_order_value_growth }} from yesterday</p>
             </div>
         </div>
     </div>

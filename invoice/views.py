@@ -34,7 +34,8 @@ class CreateInvoiceView(View):
                 'unit_amount': int(data['unit_amount']) * 100,
                 'currency': data['currency'],
                 'due_date': data['due_date'],
-                'draft': data['draft']
+                'draft': data['draft'],
+                'stripe_account': request.user.stripe_account_id
             }
 
             # Sending to Microservice
