@@ -1,6 +1,6 @@
 import json
 import requests
-
+from argon2 import PasswordHasher
 # Dir
 from tools import STRIPE_MICROSERVICE
 
@@ -10,12 +10,12 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from validate_email import validate_email
 
 
 User = get_user_model()
+ph = PasswordHasher()
 
 
 class EmailValidationView(View):
@@ -37,7 +37,7 @@ class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
-
+        password = ph.hash(password=password)
         user = authenticate(request, username=email, password=password)
         if user is None:
             messages.error(request, 'Invalid credentials')
@@ -53,35 +53,39 @@ class RegistrationView(View):
     def get(self, request):
         return render(request, 'accounts/register.html')
 
+
     def post(self, request):
-        email = request.POST.get('email')
+        try:
+            email = request.POST.get('email')
 
-        if User.objects.filter(email=email).exists():
-            messages.error(request, 'Email already exists')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
 
-        if not User.objects.filter(email=email).exists():
-            data = request.POST.dict()
-            del data['csrfmiddlewaretoken']
-            data['tos_shown_and_accepted'] = True
-            data['password'] += "10@@"
+            if not User.objects.filter(email=email).exists():
+                data = request.POST.dict()
+                del data['csrfmiddlewaretoken']
+                data['tos_shown_and_accepted'] = True
+                data['password'] += "10@@"  # In production I'd handle validation with regex ensuring only alnum characters and spefic minum quantities of numbers e.g.
 
-            # Microservice Request
-            rsp = requests.post(f"{STRIPE_MICROSERVICE}/auth/signup", json=data)
-            rsp_data = rsp.json()
+                # Microservice Request
+                rsp = requests.post(f"{STRIPE_MICROSERVICE}/auth/signup", json=data)
+                rsp_data = rsp.json()
 
-            if rsp.status_code == 200:
-                messages.success(request, rsp_data['message'])
-                user = User.objects.create_user(
-                    first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'), email=email,
-                    stripe_account_id=rsp_data['account']['account']
-                )
-                user.set_password(request.POST.get('password'))
-                user.save()
-                messages.success(request, "Successfully signed up")
-                login(request, user)
-                return redirect('onboard_user')
+                if rsp.status_code == 200:
+                    messages.success(request, rsp_data['message'])
+                    user = User.objects.create_user(
+                        first_name=request.POST.get('first_name'), last_name=request.POST.get('last_name'), email=email,
+                        stripe_account_id=rsp_data['account']['account']
+                    )
+                    user.set_password(request.POST.get('password'))
+                    user.save()
+                    messages.success(request, "Successfully signed up")
+                    login(request, user)
+                    return redirect('onboard_user')
 
-        return render(request, 'accounts/register.html')
+            return render(request, 'accounts/register.html')
+        except Exception as e:
+            print(type(e), str(e))
 
 
 class Logout(View):
